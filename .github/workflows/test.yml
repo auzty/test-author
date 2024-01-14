@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - name: testing ku 
-      shell: echo '${{ toJSON(github.event.head_commit.message) }}'
+      run: echo '${{ toJSON(github.event.head_commit.message) }}'
     - name: Discord Notification
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
