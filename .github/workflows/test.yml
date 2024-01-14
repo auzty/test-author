@@ -14,7 +14,7 @@ jobs:
 
     - name: send to discord
       run: |
-        curl -X POST -H 'Content-Type: application/json' --url ${{ secrets.DISCORD_WEBHOOK }} --data '{"content":"The project ${{ github.repository }} has been deployed.","embeds":[{"title": "Commit Message ${{ github.event.head_commit.message }} sip ok","footer":{"text":"Author: ${{ github.event.commits[0].author.username }} "} }]}'
+        curl -X POST -H 'Content-Type: application/json' --url ${{ secrets.DISCORD_WEBHOOK }} --data '{"content":"The project ${{ github.repository }} has been deployed.","embeds":[{"title": "Commit Message ${{ toJSON(github.event.head_commit.message) }} sip ok","footer":{"text":"Author: ${{ github.event.commits[0].author.username }} "} }]}'
 #    - name: Discord Notification
 #
 #      env:
