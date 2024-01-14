@@ -11,11 +11,14 @@ jobs:
     steps:
     - name: testing ku 
       run: echo '${{ github.event.head_commit.message }}'
-    - name: Discord Notification
-      env:
-        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        DISCORD_EMBEDS: "[{ 'title': 'Commit Message ', 'footer': {'text': 'Author ${{ github.event.commits[0].author.username }}'} }]"
-        #DISCORD_EMBEDS: '[{ "title": "Commit Message ${{ toJSON(github.event.head_commit.message) }}", "footer": {"text": "Author: ${{ github.event.commits[0].author.username }}"} }]'
-      uses: Ilshidur/action-discord@master
-      with:
-        args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
+
+    - name: send to discord
+      run: curl -X POST --url ${{ secrets.DISCORD_WEBHOOK }} --data '{"content":"The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.","embeds":[{"title": "Commit Message ${{ toJSON(github.event.head_commit.message) }}","footer":{"text":"Author: ${{ github.event.commits[0].author.username }}"} }]}'
+#    - name: Discord Notification
+#      env:
+#        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+#        DISCORD_EMBEDS: "[{ 'title': 'Commit Message ', 'footer': {'text': 'Author ${{ github.event.commits[0].author.username }}'} }]"
+#        #DISCORD_EMBEDS: '[{ "title": "Commit Message ${{ toJSON(github.event.head_commit.message) }}", "footer": {"text": "Author: ${{ github.event.commits[0].author.username }}"} }]'
+#      uses: Ilshidur/action-discord@master
+#      with:
+#        args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
