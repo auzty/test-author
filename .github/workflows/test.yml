@@ -15,7 +15,8 @@ jobs:
     - name: send to discord
       run: |
         if [ "${{ github.ref_name }}" == "main" ]; then export BRANCHENV=Production ; else export BRANCHENV=Staging; fi
-        curl -X POST -H 'Content-Type: application/json' --url ${{ secrets.DISCORD_WEBHOOK }} --data '{"content":"The project ${{ github.repository }} has been deployed.","embeds":[{"title":"**Environment**\n'${BRANCHENV}'","description": "**Commit Message** \n '${{ toJSON(github.event.head_commit.message) }}' sip ok","footer":{"text":"Author: ${{ github.event.head_commit.author.name }} "} }]}'
+        curl -X POST -H 'Content-Type: application/json' --url ${{ secrets.DISCORD_WEBHOOK }} --data '{"content":"The project ${{ github.repository }} has been deployed.","embeds":[{"description": "**Environment**\n'${BRANCHENV}'\n\n**Commit Message** \n '${{ toJSON(github.event.head_commit.message) }}'\n\n**Author**\n${{ github.event.head_commit.author.name }}" }]}'
+        #curl -X POST -H 'Content-Type: application/json' --url ${{ secrets.DISCORD_WEBHOOK }} --data '{"content":"The project ${{ github.repository }} has been deployed.","embeds":[{"title":"**Environment**\n'${BRANCHENV}'","description": "**Commit Message** \n '${{ toJSON(github.event.head_commit.message) }}' sip ok","footer":{"text":"Author: ${{ github.event.head_commit.author.name }} "} }]}'
         #curl -X POST -H 'Content-Type: application/json' --url ${{ secrets.DISCORD_WEBHOOK }} --data '{"content":"The project ${{ github.repository }} has been deployed.","embeds":[{"title": "Commit Message '${{ toJSON(github.event.head_commit.message) }}' sip ok","footer":{"text":"Author: ${{ github.event.commits[0].author.username }} "} }]}'
 #    - name: Discord Notification
 #      env:
